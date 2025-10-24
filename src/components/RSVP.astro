@@ -1,0 +1,169 @@
+---
+// RSVP Section - Form Konfirmasi Kehadiran
+---
+
+<section id="rsvp" class="py-20 px-4 relative overflow-hidden">
+  <!-- Background dengan Motif Hiou -->
+  <div class="absolute inset-0 pattern-hiou bg-gradient-to-b from-primary to-primary/90"></div>
+  
+  <!-- Motif Background Placeholder -->
+  <div class="absolute inset-0 opacity-10">
+    <div class="w-full h-full flex items-center justify-center text-white/20">
+      <!-- Pattern overlay -->
+    </div>
+  </div>
+
+  <div class="max-w-3xl mx-auto relative z-10">
+    <!-- Section Title -->
+    <div class="text-center mb-12 fade-in">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-white mb-4">
+        Konfirmasi Kehadiran
+      </h2>
+      <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+      <p class="text-white/90 text-lg">
+        Mohon konfirmasi kehadiran Anda di acara pernikahan kami
+      </p>
+    </div>
+
+    <!-- RSVP Form -->
+    <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 md:p-12 fade-in">
+      <form class="space-y-6">
+        <!-- Name Input -->
+        <div>
+          <label for="rsvp-name" class="block text-gray-700 font-semibold mb-2">
+            Nama Lengkap <span class="text-primary">*</span>
+          </label>
+          <input
+            type="text"
+            id="rsvp-name"
+            required
+            placeholder="Masukkan nama lengkap Anda"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
+          />
+        </div>
+
+        <!-- Email Input -->
+        <div>
+          <label for="rsvp-email" class="block text-gray-700 font-semibold mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            id="rsvp-email"
+            placeholder="email@example.com"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
+          />
+        </div>
+
+        <!-- Phone Input -->
+        <div>
+          <label for="rsvp-phone" class="block text-gray-700 font-semibold mb-2">
+            No. Handphone
+          </label>
+          <input
+            type="tel"
+            id="rsvp-phone"
+            placeholder="08xx xxxx xxxx"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
+          />
+        </div>
+
+        <!-- Attendance Status -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-3">
+            Status Kehadiran <span class="text-primary">*</span>
+          </label>
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="radio"
+                name="attendance"
+                value="hadir"
+                class="w-5 h-5 text-primary focus:ring-gold"
+              />
+              <span class="text-gray-700 group-hover:text-primary transition-smooth">
+              Ya, saya akan hadir
+              </span>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="radio"
+                name="attendance"
+                value="tidak-hadir"
+                class="w-5 h-5 text-primary focus:ring-gold"
+              />
+              <span class="text-gray-700 group-hover:text-primary transition-smooth">
+              Maaf, saya tidak bisa hadir
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Number of Guests -->
+        <div>
+          <label for="guests-number" class="block text-gray-700 font-semibold mb-2">
+            Jumlah Tamu <span class="text-primary">*</span>
+          </label>
+          <select
+            id="guests-number"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
+          >
+            <option value="1">1 Orang</option>
+            <option value="2">2 Orang</option>
+            <option value="3">3 Orang</option>
+            <option value="4">4 Orang</option>
+            <option value="5">5+ Orang</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-smooth hover:scale-105 shadow-lg flex items-center justify-center gap-3"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+          </svg>
+          Konfirmasi Kehadiran
+        </button>
+
+        <p class="text-center text-gray-500 text-sm mt-4">
+          <span class="text-primary">*</span> Wajib diisi
+        </p>
+      </form>
+    </div>
+
+    <!-- Info Note -->
+    <div class="text-center mt-8 fade-in">
+      <p class="text-white/80 text-sm">
+        Konfirmasi kehadiran paling lambat <span class="font-semibold text-gold">15 Desember 2025</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .text-gold {
+    color: var(--color-gold);
+  }
+
+  .bg-gold {
+    background-color: var(--color-gold);
+  }
+
+  .border-gold {
+    border-color: var(--color-gold);
+  }
+
+  .focus\:ring-gold:focus {
+    --tw-ring-color: var(--color-gold);
+  }
+</style>

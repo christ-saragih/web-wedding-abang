@@ -1,14 +1,65 @@
+---
+import "../styles/global.css";
+import WeddingController from "../components/WeddingController";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Wedding Celebration | Simalungun Tradition", 
+  description = "Join us in celebrating our wedding with traditional Batak Simalungun ceremony"
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="id">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>{title}</title>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<slot />
+		
+		<!-- Wedding Controller for scroll lock and music -->
+		<WeddingController client:load />
+		
+		<!-- Scroll Animation Script -->
+		<script>
+			document.addEventListener('DOMContentLoaded', () => {
+				const observerOptions = {
+					threshold: 0.1,
+					rootMargin: '0px 0px -50px 0px'
+				};
+
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('show');
+						}
+					});
+				}, observerOptions);
+
+				document.querySelectorAll('.fade-in').forEach(el => {
+					observer.observe(el);
+				});
+			});
+		</script>
 	</body>
 </html>
 

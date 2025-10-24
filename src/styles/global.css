@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #a63a3a; /* Merah bata */
+  --color-dark: #1c1c1c; /* Hitam kayu */
+  --color-gold: #d4af37; /* Kuning emas */
+  --color-cream: #f7edd9; /* Putih krem */
+  --color-gray: #6b7280;
+
+  --font-heading: "Libre Baskerville", serif;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  color: var(--color-dark);
+  background-color: var(--color-cream);
+}
+
+/* Distribute free space between tiles (visual gaps). Note: spacing adapts to container size */
+.pattern-hiou--spaced::before {
+  background-repeat: space;
+}
+
+/* Global color utilities (for convenience alongside Tailwind tokens) */
+.text-cream {
+  color: var(--color-cream);
+}
+.text-dark {
+  color: var(--color-dark);
+}
+.text-gold {
+  color: var(--color-gold);
+}
+.text-primary {
+  color: var(--color-primary);
+}
+.bg-cream {
+  background-color: var(--color-cream);
+}
+.bg-dark {
+  background-color: var(--color-dark);
+}
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.border-gold {
+  border-color: var(--color-gold);
+}
+
+/* Subtle text shadow for hero headings */
+.text-shadow-lg {
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Scroll Animation Base */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth Transitions */
+.transition-smooth {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Music Control Button Shadow */
+.shadow-3xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+}
+
+/* Prevent scrolling when locked */
+body.scroll-locked {
+  overflow: hidden;
+  height: 100vh;
+}

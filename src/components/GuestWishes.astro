@@ -1,0 +1,148 @@
+---
+// Guest Wishes Section - Form Ucapan & Doa
+---
+
+<section id="wishes" class="py-20 px-4 bg-cream">
+  <div class="max-w-4xl mx-auto">
+    <!-- Section Title -->
+    <div class="text-center mb-16 fade-in">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-primary mb-4">
+        Ucapan & Doa
+      </h2>
+      <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+      <p class="text-gray-600 text-lg">
+        Kirimkan ucapan dan doa terbaikmu untuk kami
+      </p>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12 fade-in">
+      <form class="space-y-6">
+        <div>
+          <label for="name" class="block text-gray-700 font-semibold mb-2">
+            Nama Lengkap
+          </label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Masukkan nama kamu..."
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
+          />
+        </div>
+
+        <div>
+          <label for="message" class="block text-gray-700 font-semibold mb-2">
+            Ucapan & Doa
+          </label>
+          <textarea
+            id="message"
+            rows="4"
+            placeholder="Tulis ucapan dan doa..."
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth resize-none"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-smooth hover:scale-105 shadow-lg"
+        >
+          Kirim Ucapan
+        </button>
+      </form>
+    </div>
+
+    <!-- Wishes List -->
+    <div class="space-y-6 fade-in">
+      <h3 class="text-2xl font-semibold text-primary text-center mb-8">
+        Ucapan dari Tamu Undangan
+      </h3>
+
+      <!-- Wish Card 1 -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-smooth">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+            AB
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 mb-1">Anton Butar-Butar</h4>
+            <p class="text-gray-600 text-sm mb-2">2 hari yang lalu</p>
+            <p class="text-gray-700 leading-relaxed">
+              Selamat menempuh hidup baru! Semoga selalu diberkati dengan hasangapon, hamoraon, dan hagabeon. 
+              Bahagia selalu untuk kalian berdua! 🎉
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wish Card 2 -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-smooth">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+            RS
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 mb-1">Rita Sinaga</h4>
+            <p class="text-gray-600 text-sm mb-2">3 hari yang lalu</p>
+            <p class="text-gray-700 leading-relaxed">
+              Mauliate untuk undangannya! Bahagia melihat kalian menikah. 
+              Semoga pernikahan kalian langgeng dan penuh cinta. Tuhan memberkati! ❤️
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wish Card 3 -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-smooth">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 bg-gold rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+            DP
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 mb-1">Daniel Purba</h4>
+            <p class="text-gray-600 text-sm mb-2">5 hari yang lalu</p>
+            <p class="text-gray-700 leading-relaxed">
+              Congratulations! Semoga menjadi keluarga yang harmonis dan diberkati selalu. 
+              Selamat menikah, teman! 🙏
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Load More Button -->
+      <div class="text-center pt-6">
+        <button class="text-primary font-semibold hover:text-primary/80 transition-smooth inline-flex items-center gap-2">
+          <span>Lihat Ucapan Lainnya</span>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .text-gold {
+    color: var(--color-gold);
+  }
+
+  .bg-gold {
+    background-color: var(--color-gold);
+  }
+
+  .bg-cream {
+    background-color: var(--color-cream);
+  }
+
+  .border-gold {
+    border-color: var(--color-gold);
+  }
+</style>
