@@ -21,19 +21,19 @@
         <p class="text-center text-xl mb-6">Menghitung Hari Menuju Hari Bahagia</p>
         <div class="grid grid-cols-4 gap-4 text-center">
           <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-            <div id="days" class="text-4xl font-bold mb-2">00</div>
+            <div id="event-days" class="text-2xl md:text-4xl font-bold mb-2">00</div>
             <div class="text-sm uppercase tracking-wider">Hari</div>
           </div>
           <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-            <div id="hours" class="text-4xl font-bold mb-2">00</div>
+            <div id="event-hours" class="text-2xl md:text-4xl font-bold mb-2">00</div>
             <div class="text-sm uppercase tracking-wider">Jam</div>
           </div>
           <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-            <div id="minutes" class="text-4xl font-bold mb-2">00</div>
+            <div id="event-minutes" class="text-2xl md:text-4xl font-bold mb-2">00</div>
             <div class="text-sm uppercase tracking-wider">Menit</div>
           </div>
           <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-            <div id="seconds" class="text-4xl font-bold mb-2">00</div>
+            <div id="event-seconds" class="text-2xl md:text-4xl font-bold mb-2">00</div>
             <div class="text-sm uppercase tracking-wider">Detik</div>
           </div>
         </div>
@@ -57,7 +57,7 @@
                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <p class="font-semibold">Kamis, 25 Desember 2025</p>
+                <p class="font-semibold">Sabtu, 13 Desember 2025</p>
                 <p class="text-sm text-gray-500">Pukul 08.00 - 10.00 WIB</p>
               </div>
             </div>
@@ -95,7 +95,7 @@
                 <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
               </svg>
               <div>
-                <p class="font-semibold">Kamis, 25 Desember 2025</p>
+                <p class="font-semibold">Sabtu, 13 Desember 2025</p>
                 <p class="text-sm text-gray-500">Pukul 11.00 - Selesai</p>
               </div>
             </div>
@@ -143,7 +143,8 @@
 
 <script>
   // Countdown Timer
-  const countdownDate = new Date('December 25, 2025 08:00:00').getTime();
+  // Use explicit timezone (+07:00 for WIB) to ensure consistent countdown
+  const countdownDate = new Date('2025-12-13T09:00:00+07:00').getTime();
 
   const updateCountdown = () => {
     const now = new Date().getTime();
@@ -154,10 +155,10 @@
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
+  const daysEl = document.getElementById('event-days');
+  const hoursEl = document.getElementById('event-hours');
+  const minutesEl = document.getElementById('event-minutes');
+  const secondsEl = document.getElementById('event-seconds');
 
     if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
     if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');

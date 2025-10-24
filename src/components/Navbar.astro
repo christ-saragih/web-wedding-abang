@@ -3,7 +3,7 @@
 import { Heart } from "lucide-react";
 ---
 
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 opacity-0 -translate-y-6 pointer-events-none">
   <div class="max-w-7xl mx-auto px-4 py-4">
 
     <div class="flex items-center justify-between">
@@ -118,6 +118,15 @@ import { Heart } from "lucide-react";
   window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
 
+    // Show navbar only after user scrolls
+    if (currentScroll > 10) {
+      navbar?.classList.remove('opacity-0', '-translate-y-6', 'pointer-events-none');
+      navbar?.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    } else {
+      navbar?.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
+      navbar?.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    }
+
     if (currentScroll > 100) {
       navbar?.classList.add('bg-dark/95', 'backdrop-blur-md', 'shadow-lg');
     } else {
@@ -125,6 +134,18 @@ import { Heart } from "lucide-react";
     }
 
     lastScroll = currentScroll;
+  });
+
+  // Initial state on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > 10) {
+      navbar?.classList.remove('opacity-0', '-translate-y-6', 'pointer-events-none');
+      navbar?.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    } else {
+      navbar?.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
+      navbar?.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    }
   });
 
   // Mobile menu toggle
@@ -150,10 +171,11 @@ import { Heart } from "lucide-react";
   });
 
   // Smooth scroll for all navigation links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href') || '');
+      const href = anchor.getAttribute('href') || '';
+      const target = document.querySelector(href);
       if (target) {
         target.scrollIntoView({
           behavior: 'smooth',
