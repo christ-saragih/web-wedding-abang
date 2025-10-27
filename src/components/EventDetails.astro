@@ -1,9 +1,12 @@
 ---
-import EventMap from "@/components/EventMap";
-import { CheersIcon, HandshakeIcon, CalendarHeartIcon, BuildingIcon, ChurchIcon, MapPinLineIcon, ConfettiIcon, FlowerTulipIcon } from "@phosphor-icons/react";
 // Event Details Section - Informasi Acara
+import EventMap, { type MarkerData } from "@/components/EventMap";
+import { CheersIcon, HandshakeIcon, CalendarHeartIcon, BuildingIcon, ChurchIcon, MapPinLineIcon, CalendarPlusIcon } from "@phosphor-icons/react";
 
-const locations = [
+const akadMapUrl = "https://maps.app.goo.gl/cfFZBmonoSyPjxba9";
+const resepsiMapUrl = "https://maps.app.goo.gl/xZrHod9HJqADmAhr8";
+
+const locations: MarkerData[] = [
   {
     position: [-2.964851786654645, 104.7458745138724],
     title: "Akad Nikah",
@@ -19,6 +22,21 @@ const locations = [
     iconName: "confetti",
   },
 ];
+
+// Google Calendar prefilled event (main wedding schedule)
+const eventTitle = "Pernikahan Bagas & Firda 👨🏻‍❤️‍💋‍👩🏻";
+const eventDetails = [
+  "Akad: GMI Wesley Palembang (09.00 WIB)",
+  `Maps: ${akadMapUrl}\n`,
+  "Resepsi: Jambur Sopo Godang (11.00 WIB)",
+  `Maps: ${resepsiMapUrl}\n`,
+].join("\n");
+const eventLocation = "GMI Wesley Palembang, Palembang";
+const ctz = "Asia/Jakarta";
+// 13 Dec 2025 09:00-11:00 WIB -> UTC 02:00-04:00Z
+const startUTC = "20251213T020000Z";
+const endUTC = "20251213T040000Z";
+const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&details=${encodeURIComponent(eventDetails)}&location=${encodeURIComponent(eventLocation)}&dates=${startUTC}%2F${endUTC}&ctz=${encodeURIComponent(ctz)}`;
 ---
 
 <section id="event" class="py-20 px-4 bg-cream">
@@ -85,7 +103,7 @@ const locations = [
             </div>
           </div>
           <a
-            href="https://maps.app.goo.gl/cfFZBmonoSyPjxba9"
+            href={akadMapUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Buka Google Maps - Lokasi Akad Nikah"
@@ -121,7 +139,7 @@ const locations = [
             </div>
           </div>
           <a
-            href="https://maps.app.goo.gl/xZrHod9HJqADmAhr8"
+            href={resepsiMapUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Buka Google Maps - Lokasi Resepsi"
@@ -143,13 +161,16 @@ const locations = [
 
     <!-- Add to Calendar -->
     <div class="text-center mt-8 fade-in">
-      <button class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M8 2a1 1 0 000 2h2a1 1 0 100-2H8z"/>
-          <path d="M3 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v6h-4.586l1.293-1.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L10.414 13H15v3a2 2 0 01-2 2H5a2 2 0 01-2-2V5zM15 11h2a1 1 0 110 2h-2v-2z"/>
-        </svg>
+      <a
+        href={googleCalendarUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Tambahkan ke Google Kalender"
+        class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg"
+      >
+        <CalendarPlusIcon size={24} weight="fill" />
         Tambahkan ke Kalender
-      </button>
+      </a>
     </div>
   </div>
 </section>
@@ -168,10 +189,10 @@ const locations = [
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  const daysEl = document.getElementById('event-days');
-  const hoursEl = document.getElementById('event-hours');
-  const minutesEl = document.getElementById('event-minutes');
-  const secondsEl = document.getElementById('event-seconds');
+    const daysEl = document.getElementById('event-days');
+    const hoursEl = document.getElementById('event-hours');
+    const minutesEl = document.getElementById('event-minutes');
+    const secondsEl = document.getElementById('event-seconds');
 
     if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
     if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');

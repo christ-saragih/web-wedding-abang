@@ -19,7 +19,7 @@ const customIcon = L.icon({
   popupAnchor: [0, -40],
 });
 
-type MarkerData = {
+export type MarkerData = {
   position: [number, number];
   title: string;
   subTitle: string;
