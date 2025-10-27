@@ -13,6 +13,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
+    "@supabase/supabase-js": "^2.76.1",
     "@tailwindcss/vite": "^4.1.14",
     "astro": "^5.14.6",
     "class-variance-authority": "^0.7.1",
