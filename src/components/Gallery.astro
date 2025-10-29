@@ -1,4 +1,6 @@
 ---
+import { ImagesIcon } from "@phosphor-icons/react";
+
 // Gallery Section - Galeri Foto
 ---
 
@@ -15,122 +17,113 @@
       </p>
     </div>
 
-    <!-- Gallery Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Photo 1 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-1.jpg (400x400)
+    <!-- Gallery Masonry Grid -->
+    <div class="masonry-grid">
+      <!-- Column 1 -->
+      <div class="masonry-column">
+        <!-- Photo 1 - Tall -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
+            <img src="/images/gallery/1.jpg" alt="Momen Bahagia Kami" class="w-full h-full object-cover object-[50%_70%]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Momen Bahagia Kami</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Momen Bahagia Kami</p>
+        </div>
+
+        <!-- Photo 2 - Short -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
+            <img src="/images/gallery/2.jpg" alt="Bersama Keluarga" class="w-full h-full object-cover object-[50%_52%]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Bersama Keluarga</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
+        </div>
+
+        <!-- Photo 3 - Medium -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
+            <img src="/images/gallery/3.jpg" alt="Senyuman Cinta" class="w-full h-full object-cover object-[50%_65%]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Senyuman Cinta</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
+          </div>
         </div>
       </div>
 
-      <!-- Photo 2 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-2.jpg (400x400)
+      <!-- Column 2 -->
+      <div class="masonry-column">
+        <!-- Photo 4 - Medium -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
+            <img src="/images/gallery/4.jpg" alt="Kebersamaan" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Kebersamaan</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Bersama Keluarga</p>
+        </div>
+
+        <!-- Photo 5 - Short -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
+            <img src="/images/gallery/5.jpg" alt="Tawa & Canda" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Tawa & Canda</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
+        </div>
+
+        <!-- Photo 6 - Tall -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
+            <img src="/images/gallery/6.jpg" alt="Petualangan Berdua" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Petualangan Berdua</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
+          </div>
         </div>
       </div>
 
-      <!-- Photo 3 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-3.jpg (400x400)
+      <!-- Column 3 -->
+      <div class="masonry-column">
+        <!-- Photo 7 - Short -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
+            <img src="/images/gallery/7.jpg" alt="Kenangan Indah" class="w-full h-full object-cover object-[50%_65%]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Kenangan Indah</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Senyuman Cinta</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
         </div>
-      </div>
 
-      <!-- Photo 4 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-4.jpg (400x400)
+        <!-- Photo 8 - Tall -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
+            <img src="/images/gallery/8.jpg" alt="Langkah Bersama" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Langkah Bersama</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Kebersamaan</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
         </div>
-      </div>
 
-      <!-- Photo 5 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-5.jpg (400x400)
+        <!-- Photo 9 - Medium -->
+        <div class="fade-in group cursor-pointer mb-6">
+          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
+            <img src="/images/gallery/9.jpg" alt="Selamanya" class="w-full h-full object-cover object-[50%_60%]" />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+              <p class="text-white font-semibold">Selamanya</p>
+            </div>
+            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
           </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Tawa & Canda</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-        </div>
-      </div>
-
-      <!-- Photo 6 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-6.jpg (400x400)
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Petualangan Berdua</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-        </div>
-      </div>
-
-      <!-- Photo 7 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-7.jpg (400x400)
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Kenangan Indah</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-        </div>
-      </div>
-
-      <!-- Photo 8 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-8.jpg (400x400)
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Langkah Bersama</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-        </div>
-      </div>
-
-      <!-- Photo 9 -->
-      <div class="fade-in group cursor-pointer">
-        <div class="relative overflow-hidden rounded-lg shadow-xl aspect-square">
-          <div class="absolute inset-0 bg-gray-600 flex items-center justify-center text-gray-400">
-            gallery-9.jpg (400x400)
-          </div>
-          <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-            <p class="text-white font-semibold">Selamanya</p>
-          </div>
-          <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
         </div>
       </div>
     </div>
@@ -138,9 +131,7 @@
     <!-- View More Button -->
     <div class="text-center mt-12 fade-in">
       <button class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-        </svg>
+        <ImagesIcon size={24} weight="fill" />
         Lihat Lebih Banyak
       </button>
     </div>
@@ -170,5 +161,65 @@
 
   .bg-primary {
     background-color: var(--color-primary);
+  }
+
+  /* Masonry Grid Layout */
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .masonry-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .masonry-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .masonry-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image Height Variations */
+  .masonry-tall {
+    height: 480px;
+  }
+
+  .masonry-medium {
+    height: 320px;
+  }
+
+  .masonry-short {
+    height: 240px;
+  }
+
+  @media (max-width: 768px) {
+    .masonry-tall {
+      height: 380px;
+    }
+
+    .masonry-medium {
+      height: 280px;
+    }
+
+    .masonry-short {
+      height: 220px;
+    }
+  }
+
+  /* Image Styles */
+  .masonry-grid img {
+    transition: transform 0.3s ease;
+  }
+
+  .masonry-grid .group:hover img {
+    transform: scale(1.05);
   }
 </style>
