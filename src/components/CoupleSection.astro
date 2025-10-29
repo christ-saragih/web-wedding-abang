@@ -1,0 +1,118 @@
+---
+import { FacebookLogoIcon, InstagramLogoIcon } from "@phosphor-icons/react";
+---
+
+<section id="couple" class="py-16 md:py-24 bg-cream/30">
+  <!-- Top accent divider: red → gold gradient line with small diamond -->
+  <div class="relative max-w-7xl mx-auto px-4 md:px-0">
+    <div class="flex items-center justify-center gap-3 mb-10 md:mb-14">
+      <span class="h-[2px] w-16 md:w-24 bg-gradient-to-r from-primary to-gold rounded-full"></span>
+      <span class="w-2 h-2 rotate-45 bg-gold"></span>
+      <span class="h-[2px] w-16 md:w-24 bg-gradient-to-l from-primary to-gold rounded-full"></span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-20 items-center">
+      <!-- Bride/Groom Left -->
+      <div class="text-center md:text-right space-y-4 md:space-y-5 opacity-0 translate-y-4 transition-all duration-700 ease-out will-change-transform" data-reveal>
+        <h3 class="font-heading text-3xl md:text-4xl text-dark">
+          Hendro Bagastra Jr Saragih, A.Md.T
+        </h3>
+        <p class="text-dark/70 leading-relaxed max-w-md md:ml-auto">
+          Putra dari Bapak Ir. Benrus Hollom Saragih dan Ibu Trimasta br. Sipayung, S.Pd
+        </p>
+        <div class="flex md:justify-end justify-center gap-2 pt-2">
+            <a href="#" aria-label="Facebook Hendro" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white shadow hover:shadow-md hover:-translate-y-0.5 transition">
+            <FacebookLogoIcon className="w-5 h-5 text-primary" />
+          </a>
+          <a href="#" aria-label="Instagram Hendro" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white shadow hover:shadow-md hover:-translate-y-0.5 transition">
+            <InstagramLogoIcon className="w-5 h-5 text-primary" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Center Heart Photo -->
+      <div class="justify-self-center opacity-0 translate-y-4 transition-all duration-700 ease-out delay-150" data-reveal>
+        <!-- Heart frame using inline SVG clipPath so image stays crisp and responsive -->
+        <div class="relative">
+          <!-- Glow ring -->
+          <div class="absolute inset-0 -z-10 rounded-[2rem] blur-2xl bg-gradient-to-tr from-gold/30 via-primary/20 to-gold/30"></div>
+          <svg viewBox="0 0 500 450" class="w-[300px] md:w-[360px] lg:w-[420px] h-auto drop-shadow-2xl overflow-visible" style="overflow: visible;">
+            <defs>
+              <clipPath id="heartClip" clipPathUnits="userSpaceOnUse">
+                <path d="M250 450 L220 420 C120 320 0 260 0 150 C0 80 60 20 130 20 C170 20 210 40 250 80 C290 40 330 20 370 20 C440 20 500 80 500 150 C500 260 380 320 280 420 L250 450 Z" />
+              </clipPath>
+              <linearGradient id="heartStroke" x1="0" x2="1">
+                <stop offset="0%" stop-color="var(--color-primary)" />
+                <stop offset="100%" stop-color="var(--color-gold)" />
+              </linearGradient>
+            </defs>
+
+            <!-- Image clipped to heart -->
+            <image
+              href="/images/foto-01.jpg"
+              x="0"
+              y="0"
+              width="500"
+              height="450"
+              preserveAspectRatio="xMidYMid slice"
+              clip-path="url(#heartClip)"
+            />
+
+            <!-- Border -->
+            <path
+              d="M250 450 L220 420 C120 320 0 260 0 150 C0 80 60 20 130 20 C170 20 210 40 250 80 C290 40 330 20 370 20 C440 20 500 80 500 150 C500 260 380 320 280 420 L250 450 Z"
+              fill="none"
+              stroke="url(#heartStroke)"
+              stroke-width="12"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Groom/Bride Right -->
+      <div class="text-center md:text-left space-y-4 md:space-y-5 opacity-0 translate-y-4 transition-all duration-700 ease-out delay-200" data-reveal>
+        <h3 class="font-heading text-3xl md:text-4xl text-dark">
+          Firda Ariska br. Simanjuntak, A.Md.Gz
+        </h3>
+        <p class="text-dark/70 leading-relaxed max-w-md md:mr-auto">
+          Putri dari Bapak Polmer Simanjuntak dan Ibu Espi br. Sinaga
+        </p>
+        <div class="flex md:justify-start justify-center gap-2 pt-2">
+          <a href="#" aria-label="Facebook Firda" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white shadow hover:shadow-md hover:-translate-y-0.5 transition">
+            <FacebookLogoIcon className="w-5 h-5 text-primary" />
+          </a>
+          <a href="#" aria-label="Instagram Firda" target="_blank" rel="noopener" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white shadow hover:shadow-md hover:-translate-y-0.5 transition">
+            <InstagramLogoIcon className="w-5 h-5 text-primary" />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom ornament line -->
+    <div class="flex items-center justify-center gap-2 mt-12">
+      <span class="h-[2px] w-8 bg-gradient-to-r from-gold to-primary"></span>
+      <img src="/images/ulos.svg" alt="ornamen ulos" class="w-8 h-8 opacity-60" />
+      <span class="h-[2px] w-8 bg-gradient-to-l from-gold to-primary"></span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // IntersectionObserver for smooth fade-in on scroll
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'translate-y-4');
+          entry.target.classList.add('opacity-100', 'translate-y-0');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+</script>
