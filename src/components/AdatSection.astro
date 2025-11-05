@@ -1,6 +1,25 @@
 ---
 // Adat Pernikahan Section - Penjelasan Adat Simalungun
 import { GiftIcon, HandshakeIcon, HeartIcon } from "@phosphor-icons/react";
+
+// Data Prosesi Adat
+const adatProcesses = [
+  {
+    icon: GiftIcon,
+    title: "Marhori-hori Dinding",
+    description: "Proses melamar dengan membawa tanda mata kepada keluarga mempelai wanita"
+  },
+  {
+    icon: HandshakeIcon,
+    title: "Martumpol",
+    description: "Acara pertunangan resmi dengan pemberian tanda ikatan antara kedua keluarga"
+  },
+  {
+    icon: HeartIcon,
+    title: "Paulak Une",
+    description: "Upacara pemberkatan pernikahan dengan adat istiadat Simalungun yang sakral"
+  }
+];
 ---
 
 <section id="adat" class="py-20 px-4 bg-dark text-cream relative overflow-hidden">
@@ -32,7 +51,7 @@ import { GiftIcon, HandshakeIcon, HeartIcon } from "@phosphor-icons/react";
 
       <!-- Description -->
       <div class="fade-in">
-        <h3 class="text-3xl font-semibold mb-6 text-gold">Filosofi Pernikahan</h3>
+        <h3 class="font-heading text-2xl md:text-3xl font-semibold mb-6 text-gold">Filosofi Pernikahan</h3>
         <p class="text-cream/90 mb-4 leading-relaxed">
           Dalam adat Batak Simalungun, pernikahan bukan hanya penyatuan dua insan, 
           tetapi juga penyatuan dua keluarga besar yang membawa berkah 
@@ -57,38 +76,17 @@ import { GiftIcon, HandshakeIcon, HeartIcon } from "@phosphor-icons/react";
 
     <!-- Prosesi Adat -->
     <div class="grid md:grid-cols-3 gap-8 fade-in">
-      <!-- Card 1 -->
-      <div class="bg-white/5 backdrop-blur-sm p-8 rounded-lg border border-gold/20 hover:bg-white/10 transition-smooth hover:-translate-y-2">
-        <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mb-4 mx-auto">
-          <GiftIcon size={32} weight="fill" className="text-dark" />
+      {adatProcesses.map((process) => (
+        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-lg border border-gold/20 hover:bg-white/10 transition-smooth hover:-translate-y-2">
+          <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mb-4 mx-auto">
+            <process.icon size={32} weight="fill" className="text-dark" />
+          </div>
+          <h4 class="font-heading text-xl font-semibold text-gold mb-3 text-center">{process.title}</h4>
+          <p class="text-cream/80 text-center leading-relaxed">
+            {process.description}
+          </p>
         </div>
-        <h4 class="text-xl font-semibold text-gold mb-3 text-center">Marhori-hori Dinding</h4>
-        <p class="text-cream/80 text-center leading-relaxed">
-          Proses melamar dengan membawa tanda mata kepada keluarga mempelai wanita
-        </p>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="bg-white/5 backdrop-blur-sm p-8 rounded-lg border border-gold/20 hover:bg-white/10 transition-smooth hover:-translate-y-2">
-        <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mb-4 mx-auto">
-          <HandshakeIcon size={32} weight="fill" className="text-dark" />
-        </div>
-        <h4 class="text-xl font-semibold text-gold mb-3 text-center">Martumpol</h4>
-        <p class="text-cream/80 text-center leading-relaxed">
-          Acara pertunangan resmi dengan pemberian tanda ikatan antara kedua keluarga
-        </p>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="bg-white/5 backdrop-blur-sm p-8 rounded-lg border border-gold/20 hover:bg-white/10 transition-smooth hover:-translate-y-2">
-        <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mb-4 mx-auto">
-          <HeartIcon size={32} weight="fill" className="text-dark" />
-        </div>
-        <h4 class="text-xl font-semibold text-gold mb-3 text-center">Paulak Une</h4>
-        <p class="text-cream/80 text-center leading-relaxed">
-          Upacara pemberkatan pernikahan dengan adat istiadat Simalungun yang sakral
-        </p>
-      </div>
+      ))}
     </div>
 
     <!-- Bottom Ornament -->

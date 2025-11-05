@@ -98,7 +98,7 @@ export default function WishList() {
 
   return (
     <div className="space-y-6 fade-in">
-      <h3 className="text-2xl font-semibold text-primary text-center mb-8">
+      <h3 className="font-heading text-2xl font-semibold text-primary text-center mb-8">
         Ucapan dari Tamu Undangan
       </h3>
 

@@ -101,7 +101,7 @@ export default function TimelineTabs() {
           <TabsTrigger
             key={item.id}
             value={item.id}
-            className="relative bg-transparent text-gray-500 font-serif text-base md:text-lg pb-3 px-2 rounded-none border-b-2 border-transparent transition-all duration-300 hover:text-[#5a7a7a] data-[state=active]:shadow-none"
+            className="relative bg-transparent text-gray-500 font-heading text-base md:text-lg pb-3 px-2 rounded-none border-b-2 border-transparent transition-all duration-300 hover:text-[#5a7a7a] data-[state=active]:shadow-none"
           >
             {item.title}
           </TabsTrigger>
@@ -158,7 +158,7 @@ export default function TimelineTabs() {
               </div>
 
               {/* Title */}
-              <h3 className="font-serif text-3xl md:text-4xl text-primary mb-4">
+              <h3 className="font-heading text-2xl md:text-3xl text-primary mb-4">
                 {item.title}
               </h3>
 
@@ -176,7 +176,7 @@ export default function TimelineTabs() {
                   >
                     {s.date ? (
                       <p>
-                        <span className="font-semibold text-primary">
+                        <span className="font-medium text-primary">
                           {s.date}:
                         </span>{" "}
                         {s.text}
