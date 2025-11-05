@@ -25,6 +25,7 @@ export type MarkerData = {
   subTitle: string;
   autoOpen?: boolean;
   iconName?: string;
+  image?: string;
 };
 
 const ICONS: Record<string, React.ComponentType<any>> = {
@@ -52,6 +53,7 @@ function MarkerWithPopup({
   subTitle,
   autoOpen,
   iconName,
+  image,
 }: MarkerData) {
   const markerRef = useRef<L.Marker>(null);
   const map = useMap();
@@ -64,6 +66,12 @@ function MarkerWithPopup({
 
   const IconComp = iconName ? ICONS[iconName.toLowerCase()] : null;
 
+  // Ukuran responsif berdasarkan lebar layar
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const popupWidth = isMobile
+    ? { minWidth: 180, maxWidth: 200 }
+    : { minWidth: 250, maxWidth: 280 };
+
   return (
     <Marker position={position} ref={markerRef} icon={customIcon}>
       <CircleMarker
@@ -72,12 +80,19 @@ function MarkerWithPopup({
         pathOptions={{ color: "red", weight: 2 }}
         interactive={false}
       />
-      <Popup>
-        <div className="flex items-center gap-1 font-body font-medium text-dark text-base">
-          {IconComp ? <IconComp size={16} weight="bold" /> : null}
+      <Popup {...popupWidth}>
+        <div className="w-full h-24 md:h-28 mb-2 rounded-md overflow-hidden shadow">
+          <img src={image} alt={title} className="w-full h-full object-cover" />
+        </div>
+        <div className="flex items-center gap-1 font-body font-medium text-dark text-sm md:text-base">
+          {IconComp ? (
+            <IconComp size={14} weight="bold" className="md:w-4 md:h-4" />
+          ) : null}
           {title}
         </div>
-        <div className="text-gray-700 text-sm font-body">{subTitle}</div>
+        <div className="text-gray-700 text-xs md:text-sm font-body">
+          {subTitle}
+        </div>
       </Popup>
     </Marker>
   );

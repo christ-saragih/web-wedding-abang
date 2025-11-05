@@ -4,7 +4,7 @@ import EventMap, { type MarkerData } from "@/components/EventMap";
 import { CheersIcon, HandshakeIcon, CalendarHeartIcon, BuildingIcon, ChurchIcon, MapPinLineIcon, CalendarPlusIcon } from "@phosphor-icons/react";
 
 const akadMapUrl = "https://maps.app.goo.gl/cfFZBmonoSyPjxba9";
-const resepsiMapUrl = "https://maps.app.goo.gl/xZrHod9HJqADmAhr8";
+const resepsiMapUrl = "https://maps.app.goo.gl/GV4GL1Mxdfr8JK1f7";
 
 const locations: MarkerData[] = [
   {
@@ -13,13 +13,15 @@ const locations: MarkerData[] = [
     subTitle: "GMI Wesley Palembang",
     autoOpen: true,
     iconName: "ring",
+    image: "/images/locations/gmi-wesley.png",
   },
   {
-    position: [-2.972945240192548, 104.71303333521354],
+    position: [-2.9734227431754547, 104.71194729999999],
     title: "Resepsi",
-    subTitle: "Jambur Sopo Godang Palembang",
+    subTitle: "Gedung De' Premium Convention Center",
     autoOpen: true,
     iconName: "confetti",
+    image: "/images/locations/gedung-de-premium.jpg",
   },
 ];
 
@@ -28,7 +30,7 @@ const eventTitle = "Pernikahan Bagas & Firda 👨🏻‍❤️‍💋‍👩🏻
 const eventDetails = [
   "Akad: GMI Wesley Palembang (09.00 WIB)",
   `Maps: ${akadMapUrl}\n`,
-  "Resepsi: Jambur Sopo Godang (11.00 WIB)",
+  "Resepsi: Gedung De' Premium Convention Center (11.00 WIB)",
   `Maps: ${resepsiMapUrl}\n`,
 ].join("\n");
 const eventLocation = "GMI Wesley Palembang, Palembang";
@@ -133,8 +135,8 @@ const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TE
             <div class="flex items-start gap-3">
               <BuildingIcon size={24} weight="fill" className="text-gold flex-shrink-0 mt-1" />
               <div>
-                <p class="font-semibold">Gedung Serbaguna Jambur Sopo Godang</p>
-                <p class="text-sm text-gray-500">Jl. Soekarno Hatta No. 234, Siring Agung, Ilir Barat, Palembang</p>
+                <p class="font-semibold">Gedung De' Premium Convention Center</p>
+                <p class="text-sm text-gray-500">Jl. Soekarno Hatta No. 234, Siring Agung, Ilir Barat I, Palembang</p>
               </div>
             </div>
           </div>
