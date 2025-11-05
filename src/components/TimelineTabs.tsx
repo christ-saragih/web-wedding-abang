@@ -1,41 +1,94 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const timelineData = [
+type TimelineSection = { date?: string; text: string };
+type TimelineItem = {
+  id: string;
+  title: string;
+  period: string;
+  image: string;
+  icon: string;
+  sections: TimelineSection[];
+  closing?: string[];
+};
+
+const timelineData: TimelineItem[] = [
   {
     id: "first-meet",
-    title: "First Meet",
-    date: "Jan 15, 2020",
-    description:
-      "Pertemuan pertama kami di acara keluarga besar marga Saragih. Senyuman pertama yang membuat hati berdebar dan momen yang tak terlupakan dalam hidup kami.",
+    title: "Awal Bertemu",
+    period: "Jan 2017",
     image: "/images/prewed/1.png",
     icon: "/images/our-story/first-meet.svg",
+    sections: [
+      {
+        text: "Segalanya bermula pada awal Januari 2017, ketika kami tak sengaja dipertemukan dalam Ibadah Perayaan Natal Oikumene. Lalu Bagas memfollow Instagram Firda dan memulai berkenalan melalui DM hingga berlanjut chat di Line.",
+      },
+      {
+        text: "Siapa sangka, dari perkenalan dua orang asing itu tumbuh rasa yang hangat dan penuh makna.",
+      },
+    ],
   },
   {
-    id: "first-date",
-    title: "First Date",
-    date: "Dec 25, 2022",
-    description:
-      "Kencan pertama kami yang romantis di kafe favorit. Percakapan yang mengalir natural dan tawa yang tak pernah berhenti membuat kami semakin dekat.",
+    id: "relationship",
+    title: "Menjalin Hubungan",
+    period: "Mar 2017",
     image: "/images/prewed/2.png",
     icon: "/images/our-story/first-date.svg",
+    sections: [
+      {
+        date: "19 Maret 2017",
+        text: "Bagas mengajak Firda Ibadah Sore dan datang untuk mengutarakan perasaanya.",
+      },
+      {
+        date: "17 April 2017",
+        text: "Firda menjawab perasaan Bagas dan kami berdua berkomitmen menjalin hubungan.",
+      },
+      {
+        date: "17 April 2023",
+        text: "Bagas memberikan Firda Promise Ring untuk berkomitmen menjalani hubungan ke jenjang yang lebih serius.",
+      },
+    ],
   },
   {
-    id: "marriage-proposal",
-    title: "Marriage Proposal",
-    date: "Mar 10, 2024",
-    description:
-      "Dengan adat Simalungun yang sakral, keluarga kami melakukan prosesi lamaran yang penuh makna dan berkah. Momen yang dinanti-nantikan akhirnya tiba.",
+    id: "engagement",
+    title: "Pertunangan",
+    period: "Jan—Nov 2025",
     image: "/images/prewed/3.png",
     icon: "/images/our-story/marriage-proposal.svg",
+    sections: [
+      {
+        date: "1 Januari 2025",
+        text: "Bagas membawa keluarganya datang untuk bersilahturahmi dan menyampaikan niat baik untuk arah tujuan hubungan kami.",
+      },
+      {
+        date: "2 Agustus 2025",
+        text: "Bagas beserta keluarga besar datang ke rumah Firda untuk melamar dan mendiskusikan rencana pernikahan.",
+      },
+      {
+        date: "29 November 2025",
+        text: "Akhirnya kami melaksanakan Pertunangan/Martumpol.",
+      },
+    ],
   },
   {
-    id: "our-engagement",
-    title: "Our Engagement",
-    date: "Dec 13, 2025",
-    description:
-      "Kami akan melangsungkan pernikahan dengan adat Batak Simalungun yang penuh berkah dan kebahagiaan. Awal dari perjalanan hidup baru kami bersama.",
+    id: "wedding",
+    title: "Pernikahan",
+    period: "13 Des 2025",
     image: "/images/prewed/4.png",
     icon: "/images/our-story/our-engagement.svg",
+    sections: [
+      {
+        text: "Setelah menjalin hubungan hampir 9 tahun akhirnya kami akan melangsungkan pernikahan kudus di 13 Desember 2025.",
+      },
+      {
+        text: "Kasih ini bukan kebetulan, melainkan bagian dari rencana Tuhan yang sempurna. Kami percaya, seperti tertulis dalam Pengkhotbah 3:11, ‘Ia membuat segala sesuatu indah pada waktunya.’",
+      },
+      {
+        text: "Dan kini, waktu itu telah tiba — saat kami menyatukan dua hati, dua keluarga, dan dua kehidupan dalam satu kasih yang berasal dari-Nya.",
+      },
+      {
+        text: "#foreFIRwithGAS",
+      },
+    ],
   },
 ];
 
@@ -109,15 +162,31 @@ export default function TimelineTabs() {
                 {item.title}
               </h3>
 
-              {/* Date */}
+              {/* Period */}
               <p className="text-gray-500 font-medium mb-6 text-sm tracking-wider">
-                {item.date}
+                {item.period}
               </p>
 
-              {/* Description */}
-              <p className="text-gray-600 leading-relaxed text-base md:text-lg">
-                {item.description}
-              </p>
+              {/* Sections: dated entries or paragraphs */}
+              <div className="space-y-4">
+                {item.sections.map((s, idx) => (
+                  <div
+                    key={idx}
+                    className="text-gray-600 leading-relaxed text-base md:text-lg"
+                  >
+                    {s.date ? (
+                      <p>
+                        <span className="font-semibold text-primary">
+                          {s.date}:
+                        </span>{" "}
+                        {s.text}
+                      </p>
+                    ) : (
+                      <p>{s.text}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
 
               {/* Decorative flourish at bottom */}
               <div className="mt-8 flex items-center">

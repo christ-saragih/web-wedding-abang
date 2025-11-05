@@ -82,7 +82,7 @@ export default function RsvpForm() {
             maxLength={100}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Masukkan nama lengkap Anda"
+            placeholder="Masukkan nama lengkap kamu"
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-gold focus:outline-none transition-smooth"
           />
         </div>
