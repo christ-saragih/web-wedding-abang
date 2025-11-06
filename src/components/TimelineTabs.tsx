@@ -1,11 +1,20 @@
+import { useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 type TimelineSection = { date?: string; text: string };
 type TimelineItem = {
   id: string;
   title: string;
   period: string;
-  image: string;
+  images: string[]; // support multiple images
   icon: string;
   sections: TimelineSection[];
   closing?: string[];
@@ -16,7 +25,11 @@ const timelineData: TimelineItem[] = [
     id: "first-meet",
     title: "Awal Bertemu",
     period: "Jan 2017",
-    image: "/images/prewed/1.png",
+    images: [
+      "/images/our-story/first-meet/1.png",
+      "/images/our-story/first-meet/2.jpg",
+      "/images/our-story/first-meet/3.png",
+    ],
     icon: "/images/our-story/first-meet.svg",
     sections: [
       {
@@ -31,7 +44,11 @@ const timelineData: TimelineItem[] = [
     id: "relationship",
     title: "Menjalin Hubungan",
     period: "Mar 2017",
-    image: "/images/prewed/2.png",
+    images: [
+      "/images/our-story/first-date/1.png",
+      "/images/our-story/first-date/2.jpg",
+      "/images/our-story/first-date/3.jpg",
+    ],
     icon: "/images/our-story/first-date.svg",
     sections: [
       {
@@ -52,7 +69,11 @@ const timelineData: TimelineItem[] = [
     id: "engagement",
     title: "Pertunangan",
     period: "Jan—Nov 2025",
-    image: "/images/prewed/3.png",
+    images: [
+      "/images/our-story/marriage-proposal/1.jpg",
+      "/images/our-story/marriage-proposal/2.jpg",
+      "/images/our-story/marriage-proposal/3.jpg",
+    ],
     icon: "/images/our-story/marriage-proposal.svg",
     sections: [
       {
@@ -73,7 +94,11 @@ const timelineData: TimelineItem[] = [
     id: "wedding",
     title: "Pernikahan",
     period: "13 Des 2025",
-    image: "/images/prewed/4.png",
+    images: [
+      "/images/our-story/our-engagement/1.jpg",
+      "/images/our-story/our-engagement/2.jpg",
+      "/images/our-story/our-engagement/3.jpeg",
+    ],
     icon: "/images/our-story/our-engagement.svg",
     sections: [
       {
@@ -93,12 +118,14 @@ const timelineData: TimelineItem[] = [
 ];
 
 export default function TimelineTabs() {
+  const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+
   return (
     <Tabs defaultValue="first-meet" className="w-full">
       <div className="relative w-full md:max-w-3xl md:mx-auto mb-10 md:mb-16">
         <div className="absolute -right-5 top-0 bottom-0 w-16 bg-gradient-to-l from-cream to-transparent pointer-events-none z-10 md:hidden"></div>
 
-        <TabsList className="w-full bg-transparent border-b border-gray-200 rounded-none h-auto p-0 gap-2.5 md:gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+        <TabsList className="w-full bg-transparent border-b border-gray-200 rounded-none h-auto p-0 gap-2 md:gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
           {timelineData.map((item) => (
             <TabsTrigger
               key={item.id}
@@ -121,15 +148,31 @@ export default function TimelineTabs() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-5xl mx-auto">
             {/* Image Section - Left */}
             <div className="relative group order-2 lg:order-1">
-              <div className="relative overflow-hidden rounded-lg shadow-xl">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              </div>
+              <Carousel
+                className="relative"
+                plugins={[plugin.current]}
+                onMouseEnter={plugin.current.stop}
+                onMouseLeave={plugin.current.reset}
+              >
+                <CarouselContent>
+                  {item.images.map((imgSrc, idx) => (
+                    <CarouselItem key={idx}>
+                      <div className="relative overflow-hidden rounded-lg shadow-xl">
+                        <img
+                          src={imgSrc}
+                          alt={`${item.title} - ${idx + 1}`}
+                          className="w-full h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading={idx === 0 ? "eager" : "lazy"}
+                        />
+                        {/* Overlay gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
             </div>
 
             {/* Content Section - Right */}
