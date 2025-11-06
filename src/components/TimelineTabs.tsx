@@ -36,7 +36,7 @@ const timelineData: TimelineItem[] = [
     sections: [
       {
         date: "19 Maret 2017",
-        text: "Bagas mengajak Firda Ibadah Sore dan datang untuk mengutarakan perasaanya.",
+        text: "Bagas mengajak Firda Ibadah Sore dan dating untuk mengutarakan perasaanya.",
       },
       {
         date: "17 April 2017",
@@ -95,18 +95,21 @@ const timelineData: TimelineItem[] = [
 export default function TimelineTabs() {
   return (
     <Tabs defaultValue="first-meet" className="w-full">
-      {/* Custom Styled Tabs List */}
-      <TabsList className="w-full md:max-w-3xl md:mx-auto mb-10 md:mb-16 bg-transparent border-b border-gray-200 rounded-none h-auto p-0 gap-8 overflow-x-auto">
-        {timelineData.map((item) => (
-          <TabsTrigger
-            key={item.id}
-            value={item.id}
-            className="relative bg-transparent text-gray-500 font-heading text-base md:text-lg pb-3 px-2 rounded-none border-b-2 border-transparent transition-all duration-300 hover:text-[#5a7a7a] data-[state=active]:shadow-none"
-          >
-            {item.title}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      <div className="relative w-full md:max-w-3xl md:mx-auto mb-10 md:mb-16">
+        <div className="absolute -right-5 top-0 bottom-0 w-16 bg-gradient-to-l from-cream to-transparent pointer-events-none z-10 md:hidden"></div>
+
+        <TabsList className="w-full bg-transparent border-b border-gray-200 rounded-none h-auto p-0 gap-2.5 md:gap-8 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+          {timelineData.map((item) => (
+            <TabsTrigger
+              key={item.id}
+              value={item.id}
+              className="relative bg-transparent text-gray-500 font-heading text-base md:text-lg pb-3 px-2 rounded-none border-b-2 border-transparent transition-all duration-300 hover:text-[#5a7a7a] data-[state=active]:shadow-none whitespace-nowrap snap-start flex-shrink-0"
+            >
+              {item.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
 
       {/* Tab Contents */}
       {timelineData.map((item) => (
@@ -211,6 +214,43 @@ export default function TimelineTabs() {
 
         .animate-fade-in {
           animation: fade-in 0.5s ease-out;
+        }
+
+        @keyframes bounce-x {
+          0%, 100% {
+            transform: translateX(0) translateY(-50%);
+          }
+          50% {
+            transform: translateX(4px) translateY(-50%);
+          }
+        }
+
+        .animate-bounce-x {
+          animation: bounce-x 1.5s ease-in-out infinite;
+        }
+
+        /* Custom scrollbar styling for webkit browsers */
+        .scrollbar-thin::-webkit-scrollbar {
+          height: 4px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: #cbd5e0;
+          border-radius: 2px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: #a0aec0;
+        }
+
+        /* Hide scrollbar for Firefox but keep functionality */
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: #cbd5e0 transparent;
         }
       `}</style>
     </Tabs>
