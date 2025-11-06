@@ -1,10 +1,52 @@
 ---
+import { cn } from "@/lib/utils";
 import { ImagesIcon } from "@phosphor-icons/react";
 
+
 // Gallery Section - Galeri Foto
+// Updated to support "Load More" behavior: show first 9, reveal all on button click.
+// Add new images by appending to the `images` array below.
+
+type ImageItem = {
+  src: string;
+  alt: string;
+  caption: string;
+  size: "tall" | "medium" | "short";
+  imgClass?: string;
+};
+
+const INITIAL_COUNT = 9;
+
+// Source of truth for gallery items. Add more photos here when available.
+const images: ImageItem[] = [
+  { src: "/images/gallery/1.jpg", alt: "Momen Bahagia Kami", caption: "Momen Bahagia Kami", size: "tall", imgClass: "object-[50%_70%]" },
+  { src: "/images/gallery/2.jpg", alt: "Bersama Keluarga", caption: "Bersama Keluarga", size: "short", imgClass: "object-[50%_52%]" },
+  { src: "/images/gallery/3.jpg", alt: "Senyuman Cinta", caption: "Senyuman Cinta", size: "medium", imgClass: "object-[50%_65%]" },
+  { src: "/images/gallery/4.jpg", alt: "Kebersamaan", caption: "Kebersamaan", size: "medium" },
+  { src: "/images/gallery/5.jpg", alt: "Tawa & Canda", caption: "Tawa & Canda", size: "short" },
+  { src: "/images/gallery/6.jpg", alt: "Petualangan Berdua", caption: "Petualangan Berdua", size: "tall" },
+  { src: "/images/gallery/7.jpg", alt: "Kenangan Indah", caption: "Kenangan Indah", size: "short", imgClass: "object-[50%_65%]" },
+  { src: "/images/gallery/8.jpg", alt: "Langkah Bersama", caption: "Langkah Bersama", size: "tall" },
+  { src: "/images/gallery/9.jpg", alt: "Selamanya", caption: "Selamanya", size: "medium", imgClass: "object-[50%_60%]" },
+  { src: "/images/gallery/10.jpg", alt: "Selamanya", caption: "Selamanya", size: "short", imgClass: "object-[50%_60%]" },
+  { src: "/images/gallery/11.jpg", alt: "Selamanya", caption: "Selamanya", size: "medium", imgClass: "object-[50%_80%]" },
+  { src: "/images/gallery/12.jpg", alt: "Selamanya", caption: "Selamanya", size: "short", imgClass: "object-[50%_45%]" },
+  { src: "/images/gallery/13.jpg", alt: "Selamanya", caption: "Selamanya", size: "tall", imgClass: "object-[50%_60%]" },
+  { src: "/images/gallery/14.jpg", alt: "Selamanya", caption: "Selamanya", size: "medium", imgClass: "object-[50%_80%]" },
+  { src: "/images/gallery/15.jpg", alt: "Selamanya", caption: "Selamanya", size: "medium", imgClass: "object-[50%_75%]" },
+];
+
+const hasMore = images.length > INITIAL_COUNT;
+
+// Distribute images into 3 masonry columns for a balanced layout
+const columns = 3;
+const cols: ImageItem[][] = Array.from({ length: columns }, () => []);
+images.forEach((img, idx) => {
+  cols[idx % columns].push(img);
+});
 ---
 
-<section id="gallery" class="py-20 px-4 bg-dark">
+<section id="gallery" class="py-20 px-4 bg-dark" data-initial-count={INITIAL_COUNT}>
   <div class="max-w-7xl mx-auto">
     <!-- Section Title -->
     <div class="text-center mb-16 fade-in">
@@ -19,123 +61,68 @@ import { ImagesIcon } from "@phosphor-icons/react";
 
     <!-- Gallery Masonry Grid -->
     <div class="masonry-grid">
-      <!-- Column 1 -->
-      <div class="masonry-column">
-        <!-- Photo 1 - Tall -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
-            <img src="/images/gallery/1.jpg" alt="Momen Bahagia Kami" class="w-full h-full object-cover object-[50%_70%]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Momen Bahagia Kami</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
+      {cols.map((col: ImageItem[], colIdx: number) => (
+        <div class="masonry-column" data-col={colIdx}>
+          {col.map((img: ImageItem, localIdx: number) => {
+            const idx = colIdx + localIdx * columns; // recover original order index
+            const isHidden = idx >= INITIAL_COUNT;
+            const sizeClass = img.size === "tall" ? "masonry-tall" : img.size === "short" ? "masonry-short" : "masonry-medium";
+            return (
+              <div class={cn("fade-in group cursor-pointer", isHidden && "hidden")} data-image-index={idx}>
+                <div class={cn("relative overflow-hidden rounded-lg shadow-xl", sizeClass)}>
+                  <img src={img.src} alt={img.alt} class={cn("w-full h-full object-cover", img.imgClass)} />
+                  <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
+                    <p class="text-white font-semibold">{img.caption}</p>
+                  </div>
+                  <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-
-        <!-- Photo 2 - Short -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
-            <img src="/images/gallery/2.jpg" alt="Bersama Keluarga" class="w-full h-full object-cover object-[50%_52%]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Bersama Keluarga</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-
-        <!-- Photo 3 - Medium -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
-            <img src="/images/gallery/3.jpg" alt="Senyuman Cinta" class="w-full h-full object-cover object-[50%_65%]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Senyuman Cinta</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Column 2 -->
-      <div class="masonry-column">
-        <!-- Photo 4 - Medium -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
-            <img src="/images/gallery/4.jpg" alt="Kebersamaan" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Kebersamaan</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-
-        <!-- Photo 5 - Short -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
-            <img src="/images/gallery/5.jpg" alt="Tawa & Canda" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Tawa & Canda</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-
-        <!-- Photo 6 - Tall -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
-            <img src="/images/gallery/6.jpg" alt="Petualangan Berdua" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Petualangan Berdua</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Column 3 -->
-      <div class="masonry-column">
-        <!-- Photo 7 - Short -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-short">
-            <img src="/images/gallery/7.jpg" alt="Kenangan Indah" class="w-full h-full object-cover object-[50%_65%]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Kenangan Indah</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-
-        <!-- Photo 8 - Tall -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-tall">
-            <img src="/images/gallery/8.jpg" alt="Langkah Bersama" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Langkah Bersama</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-
-        <!-- Photo 9 - Medium -->
-        <div class="fade-in group cursor-pointer">
-          <div class="relative overflow-hidden rounded-lg shadow-xl masonry-medium">
-            <img src="/images/gallery/9.jpg" alt="Selamanya" class="w-full h-full object-cover object-[50%_60%]" />
-            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-              <p class="text-white font-semibold">Selamanya</p>
-            </div>
-            <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
 
     <!-- View More Button -->
-    <div class="text-center mt-12 fade-in">
-      <button class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg">
-        <ImagesIcon size={24} weight="fill" />
-        Lihat Lebih Banyak
-      </button>
-    </div>
+    {hasMore && (
+      <div class="text-center mt-12 fade-in view-more-wrapper">
+        <button id="viewMoreBtn" type="button" class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg">
+          <ImagesIcon size={24} weight="fill" />
+          Lihat Lebih Banyak
+        </button>
+      </div>
+    )}
   </div>
+
+  <script>
+    // Reveal all hidden gallery items and hide the button
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('viewMoreBtn');
+      const root = document.getElementById('gallery');
+      const initialCount = Number(root?.getAttribute('data-initial-count') || '9');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const items = document.querySelectorAll('[data-image-index]');
+        items.forEach((el) => {
+          const i = parseInt(el.getAttribute('data-image-index') || '0', 10);
+          if (i >= initialCount) {
+            el.classList.remove('hidden');
+            // Trigger fade-in animation
+            requestAnimationFrame(() => el.classList.add('show'));
+          }
+        });
+        // Hide the button and remove wrapper to clear spacing
+        const wrapper = btn.closest('.view-more-wrapper');
+        if (wrapper) {
+          wrapper.remove();
+        } else {
+          btn.classList.remove('inline-flex');
+          btn.classList.add('hidden');
+          btn.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </section>
 
 <style>
