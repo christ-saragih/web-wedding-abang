@@ -1,6 +1,12 @@
 ---
 import { ArrowRight, HeartHandshake, MailOpen, Rose, Sparkles } from "lucide-react";
 
+interface Props {
+  guestName?: string;
+}
+
+const { guestName = "Tamu Spesial" } = Astro.props;
+
 // Hero Section - Landing Page
 ---
 
@@ -114,7 +120,7 @@ import { ArrowRight, HeartHandshake, MailOpen, Rose, Sparkles } from "lucide-rea
              <!-- Decorative text badge -->
              <div class="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary via-gold to-primary text-white px-6 py-2 rounded-full shadow-xl font-heading text-sm tracking-wider fade-in whitespace-nowrap flex items-center space-x-1" style="animation-delay: 1.3s;">
                <Sparkles className="w-4 h-4 text-yellow-500" />
-               <span>Ito-on Mangantoosi</span>
+               <span>{guestName}</span>
                <Sparkles className="w-4 h-4 text-yellow-500" />
              </div>
          </div>

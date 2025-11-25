@@ -1,0 +1,25 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import GuestManager from '@/components/admin/GuestManager';
+import { ArrowLeftIcon } from '@phosphor-icons/react';
+---
+
+<Layout title="Admin - Wedding Guest Manager">
+    <Fragment slot="head">
+        <meta name="robots" content="noindex, nofollow" />
+    </Fragment>
+    
+  <div class="h-screen w-full overflow-y-auto bg-gray-50 py-12 px-4">
+    <div class="relative text-center mb-8 max-w-5xl mx-auto">
+      <h1 class="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+      
+      <a href="/" class="absolute left-0 top-1/2 -translate-y-1/2">
+        <ArrowLeftIcon className="size-10 rounded-full bg-white text-gray-800 border border-gray-200 shadow-sm hover:bg-gray-50 p-2 transition-colors" />
+      </a>
+    </div>
+    
+    <GuestManager client:only="react" />
+
+    <div class="h-20"></div>
+  </div>
+</Layout>
