@@ -1,8 +1,8 @@
 ---
-import { GalleryInteractive, type ImageItem } from "@/components/GalleryInteractive";
+import GalleryClient, { type ImageItem } from "./GalleryClient";
 
 // Gallery Section - Galeri Foto
-// Updated to support "Load More" behavior and Lightbox Dialog via React component.
+// Updated to support "Load More" behavior and Interactive Dialog with Carousel.
 // Add new images by appending to the `images` array below.
 
 const INITIAL_COUNT = 9;
@@ -40,12 +40,14 @@ const images: ImageItem[] = [
       </p>
     </div>
 
-    <!-- Interactive Gallery (React) -->
-    <GalleryInteractive client:visible images={images} initialCount={INITIAL_COUNT} />
+    <!-- Interactive Gallery Grid -->
+    <GalleryClient client:visible images={images} initialCount={INITIAL_COUNT} />
   </div>
 </section>
 
 <style>
+  /* Styles are now handled globally or within the React component via Tailwind/Global CSS */
+  /* Keeping these for reference or if any specific overrides are needed */
   .bg-dark {
     background-color: var(--color-dark);
   }
@@ -61,15 +63,4 @@ const images: ImageItem[] = [
   .bg-gold {
     background-color: var(--color-gold);
   }
-
-  .text-dark {
-    color: var(--color-dark);
-  }
-
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-
-  /* Image Styles */
-  /* Note: Masonry layout styles are now in global.css to support the React component */
 </style>
