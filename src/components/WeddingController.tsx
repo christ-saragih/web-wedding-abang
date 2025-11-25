@@ -15,9 +15,9 @@ export default function WeddingController() {
     document.body.style.height = "100vh";
 
     // Initialize audio
-    const audioElement = new Audio("/musics/akad-payung-teduh.mp3");
+    const audioElement = new Audio("/musics/tortorhon-simalungun.mp3");
     audioElement.loop = true;
-    audioElement.volume = 0.5;
+    audioElement.volume = 1;
     setAudio(audioElement);
 
     // Cleanup
