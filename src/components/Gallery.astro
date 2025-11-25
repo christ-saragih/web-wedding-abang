@@ -1,19 +1,9 @@
 ---
-import { cn } from "@/lib/utils";
-import { ImagesIcon } from "@phosphor-icons/react";
-
+import { GalleryInteractive, type ImageItem } from "@/components/GalleryInteractive";
 
 // Gallery Section - Galeri Foto
-// Updated to support "Load More" behavior: show first 9, reveal all on button click.
+// Updated to support "Load More" behavior and Lightbox Dialog via React component.
 // Add new images by appending to the `images` array below.
-
-type ImageItem = {
-  src: string;
-  alt: string;
-  caption: string;
-  size: "tall" | "medium" | "short";
-  imgClass?: string;
-};
 
 const INITIAL_COUNT = 9;
 
@@ -35,18 +25,9 @@ const images: ImageItem[] = [
   { src: "/images/gallery/14.jpg", alt: "Langkah Kecil, Janji Besar", caption: "Langkah Kecil, Janji Besar", size: "medium", imgClass: "object-[50%_80%]" },
   { src: "/images/gallery/15.jpg", alt: "Selamanya Dimulai di Sini", caption: "Selamanya Dimulai di Sini", size: "medium", imgClass: "object-[50%_75%]" },
 ];
-
-const hasMore = images.length > INITIAL_COUNT;
-
-// Distribute images into 3 masonry columns for a balanced layout
-const columns = 3;
-const cols: ImageItem[][] = Array.from({ length: columns }, () => []);
-images.forEach((img, idx) => {
-  cols[idx % columns].push(img);
-});
 ---
 
-<section id="gallery" class="py-20 px-4 bg-dark" data-initial-count={INITIAL_COUNT}>
+<section id="gallery" class="py-20 px-4 bg-dark">
   <div class="max-w-7xl mx-auto">
     <!-- Section Title -->
     <div class="text-center mb-16 fade-in">
@@ -59,70 +40,9 @@ images.forEach((img, idx) => {
       </p>
     </div>
 
-    <!-- Gallery Masonry Grid -->
-    <div class="masonry-grid">
-      {cols.map((col: ImageItem[], colIdx: number) => (
-        <div class="masonry-column" data-col={colIdx}>
-          {col.map((img: ImageItem, localIdx: number) => {
-            const idx = colIdx + localIdx * columns; // recover original order index
-            const isHidden = idx >= INITIAL_COUNT;
-            const sizeClass = img.size === "tall" ? "masonry-tall" : img.size === "short" ? "masonry-short" : "masonry-medium";
-            return (
-              <div class={cn("fade-in group cursor-pointer", isHidden && "hidden")} data-image-index={idx}>
-                <div class={cn("relative overflow-hidden rounded-lg shadow-xl", sizeClass)}>
-                  <img src={img.src} alt={img.alt} class={cn("w-full h-full object-cover", img.imgClass)} />
-                  <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-smooth flex items-end p-6">
-                    <p class="text-white font-semibold">{img.caption}</p>
-                  </div>
-                  <div class="absolute inset-0 bg-gold/20 scale-0 group-hover:scale-100 transition-smooth"></div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
-
-    <!-- View More Button -->
-    {hasMore && (
-      <div class="text-center mt-12 fade-in view-more-wrapper">
-        <button id="viewMoreBtn" type="button" class="bg-gold text-dark px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gold/90 transition-smooth hover:scale-105 inline-flex items-center gap-3 shadow-lg">
-          <ImagesIcon size={24} weight="fill" />
-          Lihat Lebih Banyak
-        </button>
-      </div>
-    )}
+    <!-- Interactive Gallery (React) -->
+    <GalleryInteractive client:visible images={images} initialCount={INITIAL_COUNT} />
   </div>
-
-  <script>
-    // Reveal all hidden gallery items and hide the button
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('viewMoreBtn');
-      const root = document.getElementById('gallery');
-      const initialCount = Number(root?.getAttribute('data-initial-count') || '9');
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        const items = document.querySelectorAll('[data-image-index]');
-        items.forEach((el) => {
-          const i = parseInt(el.getAttribute('data-image-index') || '0', 10);
-          if (i >= initialCount) {
-            el.classList.remove('hidden');
-            // Trigger fade-in animation
-            requestAnimationFrame(() => el.classList.add('show'));
-          }
-        });
-        // Hide the button and remove wrapper to clear spacing
-        const wrapper = btn.closest('.view-more-wrapper');
-        if (wrapper) {
-          wrapper.remove();
-        } else {
-          btn.classList.remove('inline-flex');
-          btn.classList.add('hidden');
-          btn.style.display = 'none';
-        }
-      });
-    });
-  </script>
 </section>
 
 <style>
@@ -150,64 +70,6 @@ images.forEach((img, idx) => {
     background-color: var(--color-primary);
   }
 
-  /* Masonry Grid Layout */
-  .masonry-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
-  }
-
-  @media (min-width: 768px) {
-    .masonry-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .masonry-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .masonry-column {
-    display: flex;
-    gap: 1.5rem;
-    flex-direction: column;
-  }
-
-  /* Image Height Variations */
-  .masonry-tall {
-    height: 480px;
-  }
-
-  .masonry-medium {
-    height: 320px;
-  }
-
-  .masonry-short {
-    height: 240px;
-  }
-
-  @media (max-width: 768px) {
-    .masonry-tall {
-      height: 380px;
-    }
-
-    .masonry-medium {
-      height: 280px;
-    }
-
-    .masonry-short {
-      height: 220px;
-    }
-  }
-
   /* Image Styles */
-  .masonry-grid img {
-    transition: transform 0.3s ease;
-  }
-
-  .masonry-grid .group:hover img {
-    transform: scale(1.05);
-  }
+  /* Note: Masonry layout styles are now in global.css to support the React component */
 </style>
