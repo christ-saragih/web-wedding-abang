@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Carousel,
@@ -6,7 +6,16 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { XIcon } from "@phosphor-icons/react";
 import Autoplay from "embla-carousel-autoplay";
 
 type TimelineSection = { date?: string; text: string };
@@ -119,6 +128,22 @@ const timelineData: TimelineItem[] = [
 
 export default function TimelineTabs() {
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [currentImages, setCurrentImages] = useState<string[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+
+  useEffect(() => {
+    if (api && dialogOpen) {
+      api.scrollTo(selectedIndex, true);
+    }
+  }, [api, dialogOpen, selectedIndex]);
+
+  const handleImageClick = (images: string[], index: number) => {
+    setCurrentImages(images);
+    setSelectedIndex(index);
+    setDialogOpen(true);
+  };
 
   return (
     <Tabs defaultValue="first-meet" className="w-full">
@@ -157,7 +182,10 @@ export default function TimelineTabs() {
                 <CarouselContent>
                   {item.images.map((imgSrc, idx) => (
                     <CarouselItem key={idx}>
-                      <div className="relative overflow-hidden rounded-lg shadow-xl">
+                      <div
+                        className="relative overflow-hidden rounded-lg shadow-xl cursor-pointer"
+                        onClick={() => handleImageClick(item.images, idx)}
+                      >
                         <img
                           src={imgSrc}
                           alt={`${item.title} - ${idx + 1}`}
@@ -242,6 +270,53 @@ export default function TimelineTabs() {
           </div>
         </TabsContent>
       ))}
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent
+          showCloseButton={false}
+          className="md:max-w-[95vw] w-full h-[90vh] bg-transparent border-none shadow-none p-0 flex items-center justify-center"
+        >
+          <DialogTitle className="sr-only">
+            Timeline Gallery Preview
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Image gallery carousel
+          </DialogDescription>
+
+          <DialogClose className="absolute top-4 right-4 z-50 text-white/70 hover:text-white transition-colors p-2 bg-black/20 rounded-full backdrop-blur-sm cursor-pointer">
+            <XIcon size={24} weight="bold" />
+            <span className="sr-only">Close</span>
+          </DialogClose>
+
+          <Carousel
+            setApi={setApi}
+            opts={{
+              startIndex: selectedIndex,
+              loop: true,
+            }}
+            className="w-full md:max-w-5xl max-md:pb-16"
+          >
+            <CarouselContent className="items-center">
+              {currentImages.map((imgSrc, idx) => (
+                <CarouselItem
+                  key={idx}
+                  className="flex items-center justify-center h-full"
+                >
+                  <div className="relative w-full h-full flex flex-col items-center justify-center md:p-4">
+                    <img
+                      src={imgSrc}
+                      alt={`Gallery image ${idx + 1}`}
+                      className="max-h-[80vh] w-full md:w-auto object-contain rounded-md shadow-2xl"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="md:left-4 max-md:left-[calc(50%-3.5rem)] max-md:top-auto max-md:bottom-2 max-md:translate-y-0 bg-white/10 hover:bg-white/20 text-white border-none h-12 w-12" />
+            <CarouselNext className="md:right-4 max-md:right-auto max-md:left-[calc(50%+0.5rem)] max-md:top-auto max-md:bottom-2 max-md:translate-y-0 bg-white/10 hover:bg-white/20 text-white border-none h-12 w-12" />
+          </Carousel>
+        </DialogContent>
+      </Dialog>
 
       <style>{`
         @keyframes fade-in {
