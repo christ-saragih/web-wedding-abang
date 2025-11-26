@@ -274,7 +274,7 @@ export default function TimelineTabs() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent
           showCloseButton={false}
-          className="md:max-w-[95vw] w-full h-[90vh] bg-transparent border-none shadow-none p-0 flex items-center justify-center"
+          className="md:max-w-[95vw] max-w-full w-full h-[90vh] bg-transparent border-none shadow-none p-0 flex items-center justify-center"
         >
           <DialogTitle className="sr-only">
             Timeline Gallery Preview

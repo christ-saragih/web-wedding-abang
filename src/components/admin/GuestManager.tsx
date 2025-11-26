@@ -12,6 +12,7 @@ import {
   CheckCircleIcon,
   UploadSimpleIcon,
   InfoIcon,
+  PaperPlaneRightIcon,
 } from "@phosphor-icons/react";
 import {
   Dialog,
@@ -20,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "../ui/dialog";
 import {
   AlertDialog,
@@ -41,6 +43,12 @@ type Guest = {
   is_invited?: boolean;
 };
 
+type Template = {
+  id: string;
+  name: string;
+  content: string;
+};
+
 export default function GuestManager() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [newName, setNewName] = useState("");
@@ -52,9 +60,17 @@ export default function GuestManager() {
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch guests
+  // Template & Send WA states
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [isSendDialogOpen, setIsSendDialogOpen] = useState(false);
+  const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
+  const [previewMessage, setPreviewMessage] = useState("");
+
+  // Fetch guests & templates
   useEffect(() => {
     fetchGuests();
+    fetchTemplates();
   }, []);
 
   const fetchGuests = async () => {
@@ -64,6 +80,32 @@ export default function GuestManager() {
       .order("created_at", { ascending: false });
     if (data) setGuests(data);
   };
+
+  const fetchTemplates = async () => {
+    const { data } = await supabase
+      .from("chat_templates")
+      .select("*")
+      .order("created_at", { ascending: true });
+    if (data && data.length > 0) {
+      setTemplates(data);
+      setSelectedTemplateId(data[0].id);
+    }
+  };
+
+  // Update preview when template or guest changes
+  useEffect(() => {
+    if (selectedGuest && selectedTemplateId) {
+      const template = templates.find((t) => t.id === selectedTemplateId);
+      if (template) {
+        const domain = window.location.origin;
+        const link = `${domain}/to/${selectedGuest.slug}`;
+        let msg = template.content;
+        msg = msg.replace(/\[nama_tamu\]/g, selectedGuest.name);
+        msg = msg.replace(/\[link_undangan\]/g, link);
+        setPreviewMessage(msg);
+      }
+    }
+  }, [selectedGuest, selectedTemplateId, templates]);
 
   // Generate slug dari nama
   const createSlug = (text: string) => {
@@ -124,25 +166,30 @@ export default function GuestManager() {
     }
   };
 
-  const sendWA = (guest: Guest) => {
-    const domain = window.location.origin;
-    const link = `${domain}/to/${guest.slug}`;
+  const openSendDialog = (guest: Guest) => {
+    setSelectedGuest(guest);
+    setIsSendDialogOpen(true);
+  };
+
+  const handleSendWA = () => {
+    if (!selectedGuest) return;
 
     // Format nomor HP
-    let phone = guest.phone.replace(/\D/g, "");
+    let phone = selectedGuest.phone.replace(/\D/g, "");
     if (phone.startsWith("0")) {
       phone = "62" + phone.slice(1);
     }
 
-    const message = `Halo ${guest.name},\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.\n\nBerikut link undangan kami:\n${link}\n\nMerupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.\n\nTerima kasih,\nBagas & Firda`;
-
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(
+      previewMessage
+    )}`;
 
     // Buka WA
     window.open(url, "_blank");
 
     // Tandai sebagai sudah dikirim
-    markAsInvited(guest.id);
+    markAsInvited(selectedGuest.id);
+    setIsSendDialogOpen(false);
   };
 
   // Fitur excel
@@ -236,8 +283,8 @@ export default function GuestManager() {
   };
 
   return (
-    <div className="p-4 md:p-6 bg-white rounded-xl shadow-lg max-w-5xl mx-auto mt-10">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+    <div className="p-4 md:p-6 bg-white rounded-xl shadow-lg max-w-5xl mx-auto mt-0 md:mt-6">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">
         Manajemen Tamu Undangan
       </h2>
 
@@ -251,7 +298,7 @@ export default function GuestManager() {
           placeholder="Nama Tamu"
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
-          className="border p-2 rounded-md flex-1 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border p-2 rounded-md md:flex-1 focus:ring-2 focus:ring-blue-500 outline-none"
           required
         />
         <input
@@ -259,18 +306,18 @@ export default function GuestManager() {
           placeholder="No. WA (628...)"
           value={newPhone}
           onChange={(e) => setNewPhone(e.target.value)}
-          className="border p-2 rounded-md flex-1 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full border p-2 rounded-md md:flex-1 focus:ring-2 focus:ring-blue-500 outline-none"
         />
         <button
           disabled={loading}
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2 font-medium"
+          className="bg-blue-600 text-white text-sm md:text-base px-3 md:px-4 py-2 rounded-md hover:bg-blue-700 flex items-center gap-2 font-medium"
         >
           <PlusIcon weight="bold" /> Tambah
         </button>
 
         <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
           <DialogTrigger asChild>
-            <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 flex items-center gap-2 font-medium">
+            <button className="bg-green-600 text-white text-sm md:text-base px-3 md:px-4 py-2 rounded-md hover:bg-green-700 flex items-center gap-2 font-medium">
               <FileXlsIcon weight="bold" /> Import Excel
             </button>
           </DialogTrigger>
@@ -408,7 +455,7 @@ export default function GuestManager() {
                   </td>
                   <td className="p-4 flex justify-center gap-2">
                     <button
-                      onClick={() => sendWA(g)}
+                      onClick={() => openSendDialog(g)}
                       className={`p-2 rounded-lg transition-all shadow-sm flex items-center gap-2 ${
                         g.is_invited
                           ? "bg-gray-100 text-gray-600 hover:bg-green-500 hover:text-white"
@@ -434,6 +481,55 @@ export default function GuestManager() {
           </tbody>
         </table>
       </div>
+
+      <Dialog open={isSendDialogOpen} onOpenChange={setIsSendDialogOpen}>
+        <DialogContent className="md:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Kirim Undangan WhatsApp</DialogTitle>
+            <DialogDescription>
+              Pilih template pesan yang akan dikirimkan ke{" "}
+              <b>{selectedGuest?.name}</b>.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-2">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Pilih Template
+              </label>
+              <select
+                value={selectedTemplateId}
+                onChange={(e) => setSelectedTemplateId(e.target.value)}
+                className="w-full border p-2 rounded-md focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+              >
+                {templates.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Preview Pesan
+              </label>
+              <div className="bg-gray-50 p-3 rounded-md text-sm text-gray-600 whitespace-pre-wrap max-h-60 overflow-y-auto border">
+                {previewMessage}
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <button
+              onClick={handleSendWA}
+              className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 flex items-center gap-2"
+            >
+              <PaperPlaneRightIcon weight="bold" /> Kirim Sekarang
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <AlertDialog
         open={!!deleteId}
