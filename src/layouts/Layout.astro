@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import WeddingController from "../components/WeddingController";
+import { Toaster } from "@/components/ui/sonner";
 
 interface Props {
   title?: string;
@@ -38,6 +39,8 @@ const {
 		
 		<!-- Wedding Controller for scroll lock and music -->
 		<WeddingController client:load />
+
+		<Toaster client:load />
 		
 		<!-- Scroll Animation Script -->
 		<script>

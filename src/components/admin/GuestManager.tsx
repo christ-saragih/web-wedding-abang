@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase.client";
+import * as XLSX from "xlsx";
+import { toast } from "sonner";
 import {
   TrashIcon,
   PlusIcon,
@@ -7,9 +9,28 @@ import {
   SpinnerIcon,
   DownloadSimpleIcon,
   FileXlsIcon,
-  CheckCircleIcon, // Icon baru untuk indikator sudah dikirim
+  CheckCircleIcon,
+  UploadSimpleIcon,
+  InfoIcon,
 } from "@phosphor-icons/react";
-import * as XLSX from "xlsx";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 type Guest = {
   id: string;
@@ -17,7 +38,7 @@ type Guest = {
   slug: string;
   phone: string;
   category?: string;
-  is_invited?: boolean; // Field baru
+  is_invited?: boolean;
 };
 
 export default function GuestManager() {
@@ -25,7 +46,10 @@ export default function GuestManager() {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const [importing, setImporting] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch guests
@@ -64,16 +88,25 @@ export default function GuestManager() {
       setNewName("");
       setNewPhone("");
       fetchGuests();
+      toast.success("Berhasil menambahkan tamu baru");
     } else {
-      alert("Gagal menambah tamu (mungkin nama duplikat?)");
+      toast.error("Gagal menambah tamu (mungkin nama duplikat?)");
     }
     setLoading(false);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Hapus tamu ini?")) return;
-    await supabase.from("guests").delete().eq("id", id);
-    fetchGuests();
+  const handleDelete = async () => {
+    if (!deleteId) return;
+
+    const { error } = await supabase.from("guests").delete().eq("id", deleteId);
+
+    if (error) {
+      toast.error("Gagal menghapus tamu");
+    } else {
+      toast.success("Tamu berhasil dihapus");
+      fetchGuests();
+    }
+    setDeleteId(null);
   };
 
   // Fungsi baru untuk update status di database
@@ -153,7 +186,7 @@ export default function GuestManager() {
         await processExcelData(data);
       } catch (error) {
         console.error(error);
-        alert("Gagal membaca file Excel.");
+        toast.error("Gagal membaca file Excel.");
         setImporting(false);
       }
     };
@@ -182,7 +215,7 @@ export default function GuestManager() {
       .filter((item) => item !== null);
 
     if (guestsToInsert.length === 0) {
-      alert("Tidak ada data valid yang ditemukan.");
+      toast.warning("Tidak ada data valid yang ditemukan.");
       setImporting(false);
       return;
     }
@@ -191,9 +224,11 @@ export default function GuestManager() {
 
     if (error) {
       console.error("Supabase Error:", error);
-      alert(`Gagal import: ${error.message}. Mungkin ada nama yang duplikat?`);
+      toast.error(
+        `Gagal import: ${error.message}. Mungkin ada nama yang duplikat?`
+      );
     } else {
-      alert(`Berhasil mengimport ${guestsToInsert.length} tamu!`);
+      toast.success(`Berhasil mengimport ${guestsToInsert.length} tamu!`);
       fetchGuests();
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
@@ -201,47 +236,10 @@ export default function GuestManager() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-xl shadow-lg max-w-5xl mx-auto mt-10">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">
-          Manajemen Tamu Undangan
-        </h2>
-
-        {/* Tombol Aksi Excel */}
-        <div className="flex gap-2">
-          <button
-            onClick={downloadTemplate}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-green-700 bg-green-100 rounded-md hover:bg-green-200 transition-colors"
-          >
-            <DownloadSimpleIcon size={18} />
-            Template Excel
-          </button>
-
-          <div className="relative">
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFileUpload}
-              ref={fileInputRef}
-              className="hidden"
-              id="excel-upload"
-            />
-            <label
-              htmlFor="excel-upload"
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 transition-colors cursor-pointer ${
-                importing ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-            >
-              {importing ? (
-                <SpinnerIcon className="animate-spin" size={18} />
-              ) : (
-                <FileXlsIcon size={18} />
-              )}
-              {importing ? "Mengimport..." : "Import Excel"}
-            </label>
-          </div>
-        </div>
-      </div>
+    <div className="p-4 md:p-6 bg-white rounded-xl shadow-lg max-w-5xl mx-auto mt-10">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Manajemen Tamu Undangan
+      </h2>
 
       {/* Form Tambah */}
       <form
@@ -269,6 +267,89 @@ export default function GuestManager() {
         >
           <PlusIcon weight="bold" /> Tambah
         </button>
+
+        <Dialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen}>
+          <DialogTrigger asChild>
+            <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 flex items-center gap-2 font-medium">
+              <FileXlsIcon weight="bold" /> Import Excel
+            </button>
+          </DialogTrigger>
+          <DialogContent className="md:max-w-3xl">
+            <DialogHeader>
+              <DialogTitle>Import Data Tamu</DialogTitle>
+              <DialogDescription>
+                Tambahkan banyak tamu sekaligus menggunakan file Excel.
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-6 py-4">
+              {/* Langkah 1: Download Template */}
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                <h4 className="text-sm font-semibold text-blue-800 mb-2 flex items-center gap-2">
+                  <InfoIcon /> Langkah 1: Siapkan Data
+                </h4>
+                <p className="text-sm text-blue-600 mb-3">
+                  Download template Excel di bawah ini, lalu isi data tamu kamu
+                  sesuai format kolom yang tersedia.
+                </p>
+                <button
+                  onClick={downloadTemplate}
+                  className="w-full flex justify-center items-center gap-2 px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-blue-200 rounded-md hover:bg-blue-50 transition-colors"
+                >
+                  <DownloadSimpleIcon size={18} />
+                  Download Template Excel
+                </button>
+              </div>
+
+              {/* Langkah 2: Upload File */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold text-gray-700">
+                  Langkah 2: Upload File Excel
+                </h4>
+                <div className="relative">
+                  <input
+                    type="file"
+                    accept=".xlsx, .xls"
+                    onChange={handleFileUpload}
+                    ref={fileInputRef}
+                    className="hidden"
+                    id="dialog-excel-upload"
+                    disabled={importing}
+                  />
+                  <label
+                    htmlFor="dialog-excel-upload"
+                    className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors ${
+                      importing
+                        ? "opacity-50 cursor-not-allowed"
+                        : "border-gray-300 hover:border-green-500"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      {importing ? (
+                        <>
+                          <SpinnerIcon className="w-8 h-8 mb-3 text-green-600 animate-spin" />
+                          <p className="text-sm text-gray-500">
+                            Sedang memproses data...
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <UploadSimpleIcon className="w-8 h-8 mb-3 text-gray-400" />
+                          <p className="mb-2 text-sm text-gray-500">
+                            <span className="font-semibold">
+                              Klik untuk upload
+                            </span>
+                          </p>
+                          <p className="text-xs text-gray-500">XLSX atau XLS</p>
+                        </>
+                      )}
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
       </form>
 
       {/* List Tamu */}
@@ -340,7 +421,7 @@ export default function GuestManager() {
                       <WhatsappLogoIcon size={20} weight="fill" />
                     </button>
                     <button
-                      onClick={() => handleDelete(g.id)}
+                      onClick={() => setDeleteId(g.id)}
                       className="bg-red-50 text-red-500 p-2 rounded-lg hover:bg-red-500 hover:text-white hover:scale-105 transition-all shadow-sm"
                       title="Hapus"
                     >
@@ -353,6 +434,29 @@ export default function GuestManager() {
           </tbody>
         </table>
       </div>
+
+      <AlertDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Apakah anda yakin?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tamu yang dihapus tidak dapat dikembalikan lagi datanya.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Batal</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Hapus
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
