@@ -25,7 +25,7 @@ const bankAccounts = [
 ];
 
 const address =
-  "​​​​​Jl. Lebung Permai Perumahan Duta Hill Residence Blok H23B Bukit Baru Talang Kelapa, Palembang";
+  "​​​​Jl. Lebung Permai Perumahan Duta Hill Residence Blok H23B Bukit Baru Ilir Barat 1, Palembang";
 
 export default function GiftTabs() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
