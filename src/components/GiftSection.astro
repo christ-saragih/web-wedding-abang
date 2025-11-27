@@ -1,0 +1,24 @@
+---
+import { GiftIcon } from "@phosphor-icons/react";
+import GiftTabs from "./GiftTabs";
+---
+
+<section id="gift" class="py-20 px-4 bg-cream">
+  <div class="max-w-4xl mx-auto">
+    <!-- Section Title -->
+    <div class="text-center mb-12 fade-in">
+      <h2 class="font-heading text-4xl md:text-5xl font-bold text-primary mb-4">
+        Tanda Kasih
+      </h2>
+      <div class="w-24 h-1 bg-gold mx-auto mb-6"></div>
+      <p class="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
+        Doa restu kamu merupakan karunia yang sangat berarti. 
+        Namun jika memberi adalah ungkapan tanda kasih kamu, kami ucapkan terima kasih.
+      </p>
+    </div>
+
+    <div class="fade-in">
+      <GiftTabs client:visible />
+    </div>
+  </div>
+</section>
