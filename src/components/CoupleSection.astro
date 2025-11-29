@@ -1,5 +1,16 @@
 ---
 import { FacebookLogoIcon, InstagramLogoIcon } from "@phosphor-icons/react";
+
+interface Props {
+  isV2?: boolean;
+}
+
+const { isV2 = false } = Astro.props;
+const imageSrc = isV2 ? "/images/gallery/1.jpg" : "/images/foto-02.jpg";
+
+const imgConfig = isV2 
+  ? { x: "-25", y: "-50", width: "550", height: "550" }
+  : { x: "0", y: "0", width: "500", height: "450" };
 ---
 
 <section id="couple" class="py-16 md:py-24 bg-dark">
@@ -49,11 +60,11 @@ import { FacebookLogoIcon, InstagramLogoIcon } from "@phosphor-icons/react";
 
             <!-- Image clipped to heart -->
             <image
-              href="/images/foto-02.jpg"
-              x="0"
-              y="0"
-              width="500"
-              height="450"
+              href={imageSrc}
+              x={imgConfig.x}
+              y={imgConfig.y}
+              width={imgConfig.width}
+              height={imgConfig.height}
               preserveAspectRatio="xMidYMid slice"
               clip-path="url(#heartClip)"
             />
