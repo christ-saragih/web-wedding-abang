@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavbarV2 from '../../components/NavbarV2.astro';
+import Hero from '../../components/Hero.astro';
+import EventDetails from '../../components/EventDetails.astro';
+import Gallery from '../../components/Gallery.astro';
+import GiftSection from '../../components/GiftSection.astro';
+import GuestWishes from '../../components/GuestWishes.astro';
+import RSVP from '../../components/RSVP.astro';
+import Footer from '../../components/Footer.astro';
+import CoupleSection from '../../components/CoupleSection.astro';
+---
+
+<Layout 
+  title="Wedding Balfir | Bagas & Firda"
+  description="Kami mengundang Bapak/Ibu/Saudara/i untuk turut berbagi kebahagiaan dalam pernikahan putra-putri kami"
+>
+  <!-- Navigation -->
+  <NavbarV2 />
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <Hero />
+
+    <!-- Couple Section -->
+    <CoupleSection />
+    
+    <!-- Event Details Section -->
+    <EventDetails />
+
+    <!-- Guest Wishes Section -->
+    <GuestWishes />
+
+    <!-- RSVP Section -->
+    <RSVP />
+
+     <!-- Gift Section -->
+    <GiftSection />
+  </main>
+
+  <!-- Footer -->
+  <Footer />
+</Layout>
