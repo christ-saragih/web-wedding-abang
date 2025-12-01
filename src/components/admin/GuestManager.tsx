@@ -66,6 +66,7 @@ export default function GuestManager() {
   const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
   const [selectedTemplateId, setSelectedTemplateId] = useState<string>("");
   const [previewMessage, setPreviewMessage] = useState("");
+  const [invitationVersion, setInvitationVersion] = useState<"v1" | "v2">("v1");
 
   // Fetch guests & templates
   useEffect(() => {
@@ -98,14 +99,17 @@ export default function GuestManager() {
       const template = templates.find((t) => t.id === selectedTemplateId);
       if (template) {
         const domain = window.location.origin;
-        const link = `${domain}/to/${selectedGuest.slug}`;
+        const link =
+          invitationVersion === "v2"
+            ? `${domain}/v2/to/${selectedGuest.slug}`
+            : `${domain}/to/${selectedGuest.slug}`;
         let msg = template.content;
         msg = msg.replace(/\[nama_tamu\]/g, selectedGuest.name);
         msg = msg.replace(/\[link_undangan\]/g, link);
         setPreviewMessage(msg);
       }
     }
-  }, [selectedGuest, selectedTemplateId, templates]);
+  }, [selectedGuest, selectedTemplateId, templates, invitationVersion]);
 
   // Generate slug dari nama
   const createSlug = (text: string) => {
@@ -508,6 +512,40 @@ export default function GuestManager() {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Versi Undangan
+              </label>
+              <div className="flex gap-4 mb-3">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="version"
+                    value="v1"
+                    checked={invitationVersion === "v1"}
+                    onChange={() => setInvitationVersion("v1")}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span className="text-sm text-gray-700">
+                    Versi 1 (Default)
+                  </span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="version"
+                    value="v2"
+                    checked={invitationVersion === "v2"}
+                    onChange={() => setInvitationVersion("v2")}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <span className="text-sm text-gray-700">
+                    Versi 2 (Orang Tua)
+                  </span>
+                </label>
+              </div>
             </div>
 
             <div>
