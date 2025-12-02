@@ -15,90 +15,76 @@ const {
   image = "/images/foto-01-compress.jpg"
 } = Astro.props;
 
-// Pastikan URL selalu absolute menggunakan site URL
 const siteURL = Astro.site || new URL("https://www.balfir.app");
-const canonicalURL = new URL(Astro.url.pathname, siteURL);
 const socialImageURL = new URL(image, siteURL);
-
-console.log("socialImageURL", socialImageURL);
-
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
 <html lang="id">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        
+        <title>{title}</title>
+        <meta name="description" content={description} />
 
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={canonicalURL} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={socialImageURL} />
-		<meta property="og:image:width" content="1200" />
-  		<meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL.href} /> <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={socialImageURL.href} />
+        
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={canonicalURL} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={socialImageURL} />
-		<meta property="twitter:image:width" content="1200" />
-  		<meta property="twitter:image:height" content="630" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonicalURL.href} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={socialImageURL.href} />
 
-		<!-- Google Fonts -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <slot />
+        
+        <WeddingController client:load />
+        <Toaster client:load />
+        
+        <script>
+            // Script Anda tetap sama
+            document.addEventListener('DOMContentLoaded', () => {
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
 
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('show');
+                        }
+                    });
+                }, observerOptions);
 
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-	</head>
-	<body>
-		<slot />
-		
-		<!-- Wedding Controller for scroll lock and music -->
-		<WeddingController client:load />
-
-		<Toaster client:load />
-		
-		<!-- Scroll Animation Script -->
-		<script>
-			document.addEventListener('DOMContentLoaded', () => {
-				const observerOptions = {
-					threshold: 0.1,
-					rootMargin: '0px 0px -50px 0px'
-				};
-
-				const observer = new IntersectionObserver((entries) => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('show');
-						}
-					});
-				}, observerOptions);
-
-				document.querySelectorAll('.fade-in').forEach(el => {
-					observer.observe(el);
-				});
-			});
-		</script>
-	</body>
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    observer.observe(el);
+                });
+            });
+        </script>
+    </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
