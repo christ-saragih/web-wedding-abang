@@ -20,14 +20,26 @@ const { slug } = Astro.params;
 let guestName = "Tamu Spesial";
 
 if (slug) {
+  // Pastikan slug lowercase agar match dengan database
+  const safeSlug = slug.toLowerCase();
+  
+  console.log("Fetching guest for slug:", safeSlug);
+
   const { data, error } = await supabase
     .from('guests')
     .select('name')
-    .eq('slug', slug)
+    .eq('slug', safeSlug)
     .single();
   
+  if (error) {
+    console.error("Error fetching guest:", error);
+  }
+  
   if (data) {
+    console.log("Guest found:", data.name);
     guestName = data.name;
+  } else {
+    console.log("No guest found");
   }
 }
 ---
