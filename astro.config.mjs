@@ -15,5 +15,7 @@ export default defineConfig({
 
   adapter: vercel(),
 
+  site: "https://www.balfir.app",
+
   output: "server",
 });

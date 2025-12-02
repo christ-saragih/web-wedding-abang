@@ -15,8 +15,10 @@ const {
   image = "/images/foto-01.jpg"
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || Astro.url.origin);
-const socialImageURL = new URL(image, canonicalURL);
+// Pastikan URL selalu absolute menggunakan site URL
+const siteURL = Astro.site || new URL("https://www.balfir.app");
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const socialImageURL = new URL(image, siteURL);
 ---
 
 <!doctype html>
